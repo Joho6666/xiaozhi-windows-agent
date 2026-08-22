@@ -36,6 +36,9 @@ enabled_tools:
   - desktop_hotkey
   - screen_capture
   - codex_task
+  - dispatch_agent
+  - get_agent_status
+  - list_active_agents
   - detect_project_type
   - run_project_tests
   - get_task_status

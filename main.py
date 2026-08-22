@@ -18,6 +18,7 @@ from tools.git_tools import GitTools
 from tools.process_tools import ProcessTools
 from tools.system_tools import detect_dev_tools, get_system_info
 from tools.codex_tools import CodexTaskRunner, codex_path
+from tools.agent_dispatcher import AgentDispatcher, DISPATCH_AGENT_SCHEMA, GET_AGENT_STATUS_SCHEMA, LIST_AGENTS_SCHEMA
 from tools.terminal import RUN_COMMAND_SCHEMA, RUN_SAFE_COMMAND_SCHEMA, RUN_SHELL_COMMAND_SCHEMA, SafeCommandRunner
 from tools.windows_apps import OPEN_APPLICATION_SCHEMA, open_application
 from tools.browser_automation import BROWSER_CLICK_SCHEMA, BROWSER_OPEN_SCHEMA, BROWSER_READ_SCHEMA, BROWSER_SEARCH_SCHEMA, BrowserAutomation
@@ -128,6 +129,7 @@ def build_registry(settings, browser: BrowserAutomation | None = None) -> ToolRe
     screen_capture = ScreenCapture()
     codex_runner = CodexTaskRunner(workspace_manager) if codex_path() else None
     task_manager = TaskManager()
+    agent_dispatcher = AgentDispatcher(workspace_manager, task_manager)
     skill_manager = SkillManager(Path(getattr(settings, "project_dir", Path.cwd())) / "skills", getattr(settings.config, "enabled_skills", []))
 
     def arg(args, name, default=None):
@@ -139,6 +141,9 @@ def build_registry(settings, browser: BrowserAutomation | None = None) -> ToolRe
         "run_command": Tool("run_command", "Run one exact command from the safe command allowlist.", RUN_COMMAND_SCHEMA, command_runner.run, RiskLevel.MEDIUM, category="terminal", timeout=settings.config.commands.timeout_seconds + 5),
         "run_safe_command": Tool("run_safe_command", "Run one exact command from the safe command allowlist inside a named workspace.", RUN_SAFE_COMMAND_SCHEMA, command_runner.run_safe, RiskLevel.MEDIUM, category="terminal", timeout=settings.config.commands.timeout_seconds + 5),
         "run_shell_command": Tool("run_shell_command", "Execute any PowerShell or CMD shell command on the system.", RUN_SHELL_COMMAND_SCHEMA, command_runner.run_shell, RiskLevel.MEDIUM, category="terminal", timeout=120),
+        "dispatch_agent": Tool("dispatch_agent", "Dispatch a task to a local AI agent CLI (Codex CLI by default, Claude Code, or OpenCode).", DISPATCH_AGENT_SCHEMA, agent_dispatcher.dispatch, RiskLevel.LOW, category="coding"),
+        "get_agent_status": Tool("get_agent_status", "Get the real-time status and speech summary of a dispatched agent task.", GET_AGENT_STATUS_SCHEMA, agent_dispatcher.get_status, RiskLevel.LOW, category="coding"),
+        "list_active_agents": Tool("list_active_agents", "List installed local agents and active background agent tasks.", LIST_AGENTS_SCHEMA, agent_dispatcher.list_agents, RiskLevel.LOW, category="coding"),
         "delete_file": Tool("delete_file", "Delete a file or folder from the filesystem.", {"type": "object", "properties": {"workspace": {"type": "string"}, "path": {"type": "string"}}, "required": ["path"], "additionalProperties": False}, lambda args: file_tools.delete_file(arg(args, "workspace"), arg(args, "path", "")), RiskLevel.HIGH, category="filesystem"),
         "detect_project_type": Tool("detect_project_type", "Detect a supported project type from workspace marker files.", _workspace_schema(), lambda args: project_tools.detect_project_type(arg(args, "workspace", "")), RiskLevel.LOW, category="coding"),
         "run_project_tests": Tool("run_project_tests", "Detect and run a fixed test command for a named workspace.", _workspace_schema(), lambda args: project_tools.run_tests(arg(args, "workspace", "")), RiskLevel.MEDIUM, category="coding", timeout=120),
