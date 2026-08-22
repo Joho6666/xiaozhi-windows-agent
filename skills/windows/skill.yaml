@@ -1,0 +1,13 @@
+name: windows
+description: Safe Windows applications, files and system inspection.
+tools:
+  - open_application
+  - close_application
+  - list_running_apps
+  - list_directory
+  - find_files
+  - read_text_file
+  - get_recent_files
+  - get_system_info
+  - detect_dev_tools
+workspaces: []

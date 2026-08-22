@@ -1,0 +1,32 @@
+﻿# Environment & Secrets
+.env
+*.env
+*.log
+logs/
+work/
+
+# Virtual Environment
+.venv/
+venv/
+env/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Browser & Scratch files
+.browser-profile/
+.playwright-cli/
+*.png
+*.jpg
+*.jpeg
+snake.html
+tank_game.html
+index.html

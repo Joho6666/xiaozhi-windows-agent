@@ -1,0 +1,11 @@
+name: embedded
+description: ESP32 and STM32 embedded project assistant.
+tools:
+  - read_text_file
+  - search_text
+  - git_status
+  - run_safe_command
+  - codex_task
+workspaces:
+  - esp32
+  - stm32

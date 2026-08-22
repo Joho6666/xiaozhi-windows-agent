@@ -1,0 +1,10 @@
+websockets>=12,<16
+pydantic>=2.7,<3
+python-dotenv>=1.0,<2
+PyYAML>=6.0,<7
+pytest>=8,<9
+pytest-asyncio>=0.23,<2
+playwright>=1.45,<2
+psutil>=6,<8
+pywinauto>=0.6.8,<1
+Pillow>=10,<13

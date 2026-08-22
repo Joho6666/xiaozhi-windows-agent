@@ -1,0 +1,5 @@
+name: inspect_project
+description: Inspect a named workspace with Git and local tool discovery.
+steps:
+  - tool: git_status
+  - tool: detect_dev_tools

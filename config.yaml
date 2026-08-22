@@ -1,0 +1,150 @@
+﻿# XiaoZhi Windows MCP Agent Configuration
+
+enabled_tools:
+  - open_application
+  - list_directory
+  - run_command
+  - run_safe_command
+  - run_shell_command
+  - browser_search
+  - browser_open
+  - browser_read_page
+  - browser_click
+  - list_workspaces
+  - get_workspace
+  - list_workspace_files
+  - find_files
+  - read_text_file
+  - search_text
+  - get_file_info
+  - open_file
+  - write_text_file
+  - delete_file
+  - get_recent_files
+  - git_status
+  - git_diff
+  - git_log
+  - git_branch
+  - get_system_info
+  - detect_dev_tools
+  - list_running_apps
+  - close_application
+  - focus_application
+  - desktop_list_windows
+  - desktop_click
+  - desktop_type
+  - desktop_hotkey
+  - screen_capture
+  - codex_task
+  - detect_project_type
+  - run_project_tests
+  - get_task_status
+  - get_task_result
+  - cancel_task
+  - discover_skills
+  - list_skills
+  - enable_skill
+  - disable_skill
+  - list_workflows
+  - run_workflow
+
+# Permission profiles: safe | power | unrestricted
+permissions:
+  profile: unrestricted
+  low: auto
+  medium: auto
+  high: auto
+  blocked: auto
+
+confirm_timeout_seconds: 30
+protocol_mode: plain_jsonrpc
+request_timeout_seconds: 30
+
+directories:
+  allowed_roots:
+    - Desktop
+    - Documents
+    - Downloads
+    - .
+  max_entries: 200
+
+commands:
+  timeout_seconds: 30
+  max_output_chars: 8000
+  allowed:
+    - executable: whoami
+      args: []
+    - executable: hostname
+      args: []
+    - executable: ipconfig
+      args: []
+    - executable: python
+      args: [--version]
+    - executable: git
+      args: [--version]
+    - executable: node
+      args: [--version]
+    - executable: where
+      args: [python]
+    - executable: where
+      args: [git]
+    - executable: dir
+      args: []
+    - executable: git
+      args: [status]
+    - executable: git
+      args: [diff]
+    - executable: git
+      args: [log, "-10", --oneline]
+    - executable: python
+      args: [-m, pytest, -q]
+    - executable: pytest
+      args: []
+    - executable: npm
+      args: [test]
+    - executable: pio
+      args: [test]
+
+files:
+  allowed_extensions:
+    - .txt
+    - .md
+    - .json
+    - .yaml
+    - .yml
+    - .py
+    - .js
+    - .ts
+    - .cpp
+    - .c
+    - .h
+    - .java
+    - .csv
+  max_file_bytes: 50000000
+  max_return_chars: 20000
+  max_results: 200
+
+reconnect:
+  delays_seconds: [1, 2, 4, 8, 15, 30]
+
+browser:
+  enabled: true
+  headless: false
+  search_engine: bing
+  page_timeout_seconds: 20
+  max_results: 5
+  max_text_chars: 5000
+  allowed_domains: []
+
+workspaces:
+  agent:
+    path: .
+  # 自定义本地开发项目路径示例（根据需要取消注释并修改路径）：
+  # esp32:
+  #   path: D:/Projects/esp32
+  # stm32:
+  #   path: D:/Projects/stm32
+  # web:
+  #   path: D:/Projects/web_frontend
+
+enabled_skills: []

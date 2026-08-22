@@ -1,0 +1,12 @@
+name: coding
+description: Safe project inspection, Git and read-only coding analysis.
+tools:
+  - list_workspaces
+  - read_text_file
+  - search_text
+  - git_status
+  - git_diff
+  - git_log
+  - run_safe_command
+  - codex_task
+workspaces: []
